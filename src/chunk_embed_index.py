@@ -8,7 +8,7 @@ import pickle
 # -----------------------
 # Paths
 # -----------------------
-DATA_PATH = "data/filtered_complaints.csv"
+DATA_PATH = "data/processed_data/filtered_complaints.csv"
 VECTOR_DIR = "vector_store"
 os.makedirs(VECTOR_DIR, exist_ok=True)
 
