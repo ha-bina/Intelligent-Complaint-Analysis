@@ -1,17 +1,6 @@
 # Intelligent Complaint Analysis
 
-A Python-based system for analyzing, embedding, and indexing complaint data using modern NLP and vector search techniques.
-
----
-
-## Features
-
-- **Data Preprocessing:** Clean and prepare complaint datasets for analysis.
-- **Exploratory Data Analysis (EDA):** Jupyter notebooks for visualizing and understanding complaint data.
-- **Chunking & Embedding:** Split complaints into chunks and generate vector embeddings.
-- **Vector Store:** Efficient similarity search using FAISS and pickle-based indices.
-- **Modular Codebase:** Organized into `src/` for easy extension and maintenance.
-- **Unit Testing:** Automated tests in the `tests/` directory.
+A modular pipeline for analyzing, cleaning, embedding, and indexing consumer complaint narratives using modern NLP and vector search techniques.
 
 ---
 
@@ -21,65 +10,76 @@ A Python-based system for analyzing, embedding, and indexing complaint data usin
 intelligent-complaint-analysis/
 │
 ├── data/                  # Raw and processed data
-├── notebooks/             # Jupyter notebooks for EDA and preprocessing
+├── notebooks/
+│   └── eda_preprocessing.ipynb   # EDA and preprocessing notebook
 ├── src/
-│   ├── chunk_embed_index.py   # Chunking, embedding, and indexing logic
-│   └── ...                   # Other source files
-├── tests/                 # Unit tests
-├── vector_store/
-│   ├── index.faiss        # FAISS vector index
-│   └── index.pk1          # Pickle-based index
+│   └── chunk_embed_index.py      # Chunking, embedding, and vector indexing
+├── vector_store/          # Vector and metadata indices
+├── app.py                 # (Optional) Main application entry point
+├── rag_pipeline.py        # (Optional) RAG pipeline script
+├── rag_evaluation.py      # (Optional) RAG evaluation script
+├── test_rag.py            # (Optional) Tests for RAG pipeline
 ├── requirements.txt       # Python dependencies
-└── README.md              # Project documentation
+└── README.md
 ```
 
 ---
 
-## Getting Started
+## Workflow
 
-### 1. Clone the Repository
+1. **Data Preparation & EDA**
+   - Use `notebooks/eda_preprocessing.ipynb` to:
+     - Load and explore your data (e.g., `path6/complaints.csv`)
+     - Filter, clean, and save processed data to `path6/filtered_complaints.csv`
 
-```sh
-git clone https://github.com/ha-bina/intelligent-complaint-analysis.git
-cd intelligent-complaint-analysis
-```
+2. **Chunking, Embedding, and Indexing**
+   - Use `src/chunk_embed_index.py` (or its function) to:
+     - Split narratives into chunks
+     - Generate embeddings with SentenceTransformers
+     - Build a FAISS vector index and save metadata
 
-### 2. Install Dependencies
+   Example usage in a notebook or script:
+   ```python
+   from src.chunk_embed_index import build_vector_index
+   build_vector_index(data_path="path6/filtered_complaints.csv", vector_dir="path6/vector_store")
+   ```
 
+3. **(Optional) Run Application or Pipelines**
+   - Run main app:
+     ```sh
+     python app.py
+     ```
+   - Run RAG pipeline:
+     ```sh
+     python rag_pipeline.py
+     ```
+   - Run RAG evaluation:
+     ```sh
+     python rag_evaluation.py
+     ```
+
+4. **Testing**
+   - Run tests:
+     ```sh
+     pytest test_rag.py
+     ```
+     or
+     ```sh
+     python test_rag.py
+     ```
+
+---
+
+## Requirements
+
+Install dependencies:
 ```sh
 pip install -r requirements.txt
 ```
-
-### 3. Prepare Data
-
-- Place your raw complaint data  in the `data/raw/` directory.
-
-### 4. Run EDA and Preprocessing
-
-- Open and run the notebook:  
-  `notebooks/eda_preprocessing.ipynb`
-
-### 5. Chunk, Embed, and Index
-
-- Run the main script to process data and build the vector index:
-  ```sh
-  python src/chunk_embed_index.py
-  ```
-- This will generate/update `vector_store/index.faiss` and `vector_store/index.pk1`.
-
----
-
-## Usage
-
-- **Querying:** Use the vector store to find similar complaints or perform semantic search.
-- **Extending:** Add new embedding models or chunking strategies by editing `src/chunk_embed_index.py`.
-
----
-
-## Testing
-
-Run all unit tests with:
-
-```sh
-pytest tests/
+Or, from within a notebook:
+```python
+%pip install pandas matplotlib seaborn sentence-transformers langchain faiss-cpu
 ```
+
+
+
